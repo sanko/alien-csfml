@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-BEGIN { chdir '../..' if not -d '_build'; }
+BEGIN { chdir '../' if not -d '_build'; }
 use Test::More;
 use File::Temp;
 use lib qw[blib/lib];
