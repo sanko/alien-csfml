@@ -105,11 +105,11 @@ Returns additional linker flags to be used.
 By default, all modules are linked but you may request certain modules
 individually with the following values:
 
-- `audio`
-- `graphics`
-- `network`
-- `system`
-- `window`
+- `audio` - hardware-accelerated spatialised audio playback and recording
+- `graphics` - hardware acceleration of 2D graphics including sprites, polygons and text rendering
+- `network` - TCP and UDP network sockets, data encapsulation facilities, HTTP and FTP classes
+- `system` - vector and Unicode string classes, portable threading and timer facilities
+- `window` - window and input device management including support for joysticks, OpenGL context management
 
 Dependencies are also automatically returned for each module type.
 
@@ -154,6 +154,13 @@ On a Debian based system, you'd try something like:
 
      sudo apt-get update
      sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+
+On FreeBSD, I tossed this into my Github Action and it works out
+alright:
+
+    env ASSUME_ALWAYS_YES=YES pkg install -y git cmake-core ninja xorgproto libX11 libXrandr
+    env ASSUME_ALWAYS_YES=YES pkg install -y flac libogg libvorbis freetype2 openal-soft libglvnd
+    env ASSUME_ALWAYS_YES=YES pkg install -y libXcursor
 
 # See Also
 
