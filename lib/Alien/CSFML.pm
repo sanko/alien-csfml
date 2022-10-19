@@ -262,8 +262,7 @@ On a Debian based system, you'd try something like:
      sudo apt-get update
      sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
 
-On FreeBSD, I tossed this into my Github Action and it works out
-alright:
+On FreeBSD, I tossed this into my Github Action and it works out alright:
 
     env ASSUME_ALWAYS_YES=YES pkg install -y git cmake-core ninja xorgproto libX11 libXrandr
     env ASSUME_ALWAYS_YES=YES pkg install -y flac libogg libvorbis freetype2 openal-soft libglvnd

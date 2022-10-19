@@ -3,6 +3,7 @@ Revision history for Perl extension Alien-CSFML
 {{$NEXT}}
 
   - Document dependencies on FreeBSD
+  - Describe modules provided by ldflags()
 
 v0.0.1 2022-10-19T02:09:45Z
 
