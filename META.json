@@ -110,7 +110,7 @@
          "web" : "https://github.com/sanko/alien-csfml"
       }
    },
-   "version" : "v0.0.4",
+   "version" : "v0.0.5",
    "x_authority" : "cpan:SANKO",
    "x_serialization_backend" : "JSON::PP version 4.11",
    "x_static_install" : 0
