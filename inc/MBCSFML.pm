@@ -96,14 +96,15 @@ sub _mirror_extract {
 
 sub build_libs {
     my ($options) = @_;
-    my (%libinfo);
-    my $meta    = $options->{meta};
-    my $cwd     = rel2abs './';                # XXX - use Cwd;
-    my $archdir = catdir( $cwd, qw[share] );
+    my ( %libinfo, $dir );
+    my $meta = $options->{meta};
+    my $cwd  = rel2abs './';       # XXX - use Cwd;
 
     # This is an ugly cludge. A working, ugly cludge though. :\
     if ( !-d 'share' ) {
         mkpath( 'share', $options->{verbose}, oct '755' ) unless -d 'share';
+        $dir = tempd();
+        my $archdir = catdir( $cwd, qw[share] );
         if ( $^O eq 'MSWin32' ) {
             require ExtUtils::CBuilder;
             my $cb   = ExtUtils::CBuilder->new;
@@ -140,34 +141,31 @@ sub build_libs {
                         die $!;
                 }
             }
+            return;
         }
-        else {
-            require Alien::cmake3;
-            unshift @PATH, Alien::cmake3->bin_dir;
-            require Alien::git;
-            unshift @PATH, Alien::git->bin_dir;
-            my $exe = Alien::cmake3->exe;
-            my $win = $^O eq 'MSWin32' ? 1 : 0;
-            my $mac = $^O eq 'darwin'  ? 1 : 0;
-            $exe = qq["$exe" -G"MinGW Makefiles"] if $win;
+        require Alien::cmake3;
+        unshift @PATH, Alien::cmake3->bin_dir;
+        require Alien::git;
+        unshift @PATH, Alien::git->bin_dir;
+        my $exe = Alien::cmake3->exe;
+        my $win = $^O eq 'MSWin32' ? 1 : 0;
+        my $mac = $^O eq 'darwin'  ? 1 : 0;
+        $exe = qq["$exe" -G"MinGW Makefiles"] if $win;
 
-            #$exe = qq[sudo $exe]                  if $mac;
-            CORE::say($_) && system $_
-                for $exe .
-                " -S $cwd/cmake/sfml -B ./build/sfml -DCMAKE_INSTALL_PREFIX=$cwd/share/sfml -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DSFML_BUILD_EXAMPLES=FALSE -DSFML_BUILD_TEST_SUITE=FALSE"
-                . ( $mac ? ' -DSFML_BUILD_FRAMEWORKS=FALSE' : '' ), (
-                $win ? ( 'mingw32-make -C ./build/sfml', 'mingw32-make -C ./build/sfml install' ) :
-                    $exe . " --build ./build/sfml --config Release --parallel 5 --target install" ),
-                $exe .
-                " -S $cwd/cmake/csfml -B ./build/csfml -DCMAKE_INSTALL_PREFIX=$cwd/share/csfml -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DCSFML_LINK_SFML_STATICALLY=FALSE -DSFML_DIR=$cwd/share/sfml/lib/cmake/SFML/"
-                . ( $mac ? ' -DSFML_BUILD_FRAMEWORKS=FALSE' : '' ),
-                ( $win ?
-                    ( 'mingw32-make -C ./build/csfml', 'mingw32-make -C ./build/csfml install' ) :
-                    $exe .
-                    " --build ./build/csfml --config Release --parallel 5 --target install" );
+        #$exe = qq[sudo $exe]                  if $mac;
+        CORE::say($_) && system $_
+            for $exe .
+            " -S $cwd/cmake/sfml -B ./build/sfml -DCMAKE_INSTALL_PREFIX=$cwd/share/sfml -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DSFML_BUILD_EXAMPLES=FALSE -DSFML_BUILD_TEST_SUITE=FALSE"
+            . ( $mac ? ' -DSFML_BUILD_FRAMEWORKS=FALSE' : '' ),
+            ( $win   ? ( 'mingw32-make -C ./build/sfml', 'mingw32-make -C ./build/sfml install' ) :
+                $exe . " --build ./build/sfml --config Release --parallel 5 --target install" ),
+            $exe .
+            " -S $cwd/cmake/csfml -B ./build/csfml -DCMAKE_INSTALL_PREFIX=$cwd/share/csfml -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DCSFML_LINK_SFML_STATICALLY=FALSE -DSFML_DIR=$cwd/share/sfml/lib/cmake/SFML/"
+            . ( $mac ? ' -DSFML_BUILD_FRAMEWORKS=FALSE' : '' ),
+            ( $win ? ( 'mingw32-make -C ./build/csfml', 'mingw32-make -C ./build/csfml install' ) :
+                $exe . " --build ./build/csfml --config Release --parallel 5 --target install" );
 
-            #write_file( catfile( $archdir, qw[config.json] ), 'utf8', encode_json( \%libinfo ) );
-        }
+        #write_file( catfile( $archdir, qw[config.json] ), 'utf8', encode_json( \%libinfo ) );
     }
 }
 
