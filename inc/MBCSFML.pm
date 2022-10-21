@@ -153,7 +153,7 @@ sub build_libs {
         $exe = qq["$exe" -G"MinGW Makefiles"] if $win;
 
         #$exe = qq[sudo $exe]                  if $mac;
-        CORE::say($_) && system $_
+        warn($_) && system($_)
             for $exe .
             " -S $cwd/cmake/sfml -B ./build/sfml -DCMAKE_INSTALL_PREFIX=$cwd/share/sfml -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE -DSFML_BUILD_EXAMPLES=FALSE -DSFML_BUILD_TEST_SUITE=FALSE"
             . ( $mac ? ' -DSFML_BUILD_FRAMEWORKS=FALSE' : '' ),

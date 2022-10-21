@@ -85,7 +85,7 @@
             "File::Slurp" : "0",
             "File::Spec::Functions" : "0",
             "JSON::Tiny" : "0",
-            "perl" : "5.010000"
+            "perl" : "5.026000"
          }
       },
       "test" : {
