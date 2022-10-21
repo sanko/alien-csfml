@@ -2,6 +2,8 @@ Revision history for Perl extension Alien-CSFML
 
 {{$NEXT}}
 
+v0.0.6 2022-10-21T18:00:37Z
+
   - More tweaking to get failure data from smokers
 
 v0.0.5 2022-10-21T12:34:19Z
