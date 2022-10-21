@@ -2,6 +2,10 @@ Revision history for Perl extension Alien-CSFML
 
 {{$NEXT}}
 
+v0.0.4 2022-10-21T04:15:08Z
+
+  - Fixing Windows broke *BSD and macOS in CI
+
 v0.0.3 2022-10-21T03:43:22Z
 
   - Aim to use prebuilt libs on Windows (MSVC and GCC)
