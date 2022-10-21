@@ -2,6 +2,10 @@ Revision history for Perl extension Alien-CSFML
 
 {{$NEXT}}
 
+v0.0.3 2022-10-21T03:43:22Z
+
+  - Aim to use prebuilt libs on Windows (MSVC and GCC)
+
 v0.0.2 2022-10-19T18:41:44Z
 
   - Document dependencies on FreeBSD
